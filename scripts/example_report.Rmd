@@ -1,0 +1,22 @@
+---
+title:  "Example Report"
+params:
+  webshotpath: NA
+  sig_table: NA
+output: pdf_document
+
+---
+This is an RMarkdown file rendered from within a Shiny app.
+
+
+Below is the map:
+```{r echo = FALSE, warning = FALSE, results = 'asis', out.width = '80%', fig.align="center"}
+
+knitr::include_graphics(params$webshotpath)
+```
+
+Below is the summary of the number of each species sighted:
+```{r echo = FALSE, warning = FALSE, results = 'asis', fig.align="center"}
+knitr::kable(params$sig_table, caption = "Total count of species sighted")
+```
+
