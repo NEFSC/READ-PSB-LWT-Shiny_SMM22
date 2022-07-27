@@ -37,8 +37,8 @@ ui <- dashboardPage(
       #,
       # 
       # # Second tab content
-      # tabItem(tabName = "DMA",
-      #         source('./scripts/DMAapp.R', local = TRUE)$value
+      # tabItem(tabName = "FUTURE_TAB",
+      #         source('./scripts/FUTURE_TAB.R', local = TRUE)$value
       # ),
       
     )
