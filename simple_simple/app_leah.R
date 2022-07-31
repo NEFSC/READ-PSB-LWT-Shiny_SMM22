@@ -70,8 +70,7 @@ server <- function(input, output) {
     
     data_map<-leaflet(data = species_filter) %>% 
       addEsriBasemapLayer(esriBasemapLayers$Oceans, autoLabels=TRUE) %>%
-      addCircleMarkers(lng = ~LONGITUDE, lat = ~LATITUDE, color = ~SPCODE, stroke = FALSE, fillOpacity = 2, radius = 5) #%>%
-      #addLegend(pal = factpal, values = SPCODE, opacity = 1)
+      addCircleMarkers(lng = ~LONGITUDE, lat = ~LATITUDE, color = ~SPCODE, stroke = FALSE, fillOpacity = 2, radius = 5)
     
     output$data_map = renderLeaflet({print(data_map)})
     
