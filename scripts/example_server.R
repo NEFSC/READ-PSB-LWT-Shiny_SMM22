@@ -18,23 +18,19 @@ observeEvent(input$rawupload,{
   
   #path to default data
   if (input$datatype == 'Default'){
-    path<-'./data/Default_f_220529.csv'
+    reactive_values$path<-'./data/Default_f_220529.csv'
   #path to custom data detailed by user input  
   } else if (input$datatype == 'Custom'){
-    path<-input$filepathinput
+    reactive_values$path<-input$filepathinput
   }
-  print(path)
+  print(reactive_values$path)
   
 #check that "path" has been defined so that the app doesn't crash on start 
-  if (exists("path")) {
+  if (!is.null(reactive_values$path)) {
     print("exists")
-    #check that path is valid    
-    if (!file.exists(path)) {
-    output$error<-renderText({"File not found"})
-    } else {
   
       #read in data
-      upload_data<-read.csv(path, header = T, stringsAsFactors = F)
+      upload_data<-read.csv(reactive_values$path, header = T, stringsAsFactors = F)
       upload_data$DATETIME_ET<-ymd_hms(upload_data$DATETIME_ET) #declare datetime format for data
       
       #options for dropdowns in rHOT
@@ -96,7 +92,12 @@ observeEvent(input$rawupload,{
       output$upload_data_table = renderRHandsontable({upload_data_table})
       #enable button for map generation and data export
       enable("export_map")  
- } }
+   
+} else if (is.null(reactive_values$path)) {  #check that path is valid 
+  output$error<-renderText({"File not found"})
+} 
+
+
 })
 
 #"Export & Map" button is pressed
@@ -105,7 +106,7 @@ observeEvent(input$export_map,{
   #read in any edits from rHOT in app
   edited_data = hot_to_r(input$upload_data_table)
   #write edited data to output file
-  write.csv(edited_data, paste0('./output/edit_',basename(path)), na = "", row.names = FALSE)
+  write.csv(edited_data, paste0('./output/edit_',basename(reactive_values$path)), na = "", row.names = FALSE)
   
   edited_data$LATITUDE<-as.numeric(edited_data$LATITUDE)
   edited_data$LONGITUDE<-as.numeric(edited_data$LONGITUDE)
